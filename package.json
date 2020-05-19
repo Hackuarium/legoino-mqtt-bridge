@@ -1,0 +1,52 @@
+{
+  "name": "serial-mqtt-bridge",
+  "version": "0.0.0",
+  "description": "Retreive data from serial devices and publish it as MQTT messages.",
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "scripts": {
+    "eslint": "eslint src",
+    "eslint-fix": "npm run eslint -- --fix",
+    "prepublishOnly": "rollup -c",
+    "test": "npm run test-coverage && npm run eslint",
+    "test-coverage": "jest --coverage",
+    "test-only": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheminfo/serial-mqtt-bridge.git"
+  },
+  "keywords": [],
+  "author": "Océane Patiny",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cheminfo/serial-mqtt-bridge/issues"
+  },
+  "homepage": "https://github.com/cheminfo/serial-mqtt-bridge#readme",
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "all"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.9.6",
+    "@types/jest": "^25.2.3",
+    "eslint": "^7.0.0",
+    "eslint-config-cheminfo": "^3.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.13.1",
+    "eslint-plugin-prettier": "^3.1.3",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "rollup": "^2.10.4"
+  }
+}
