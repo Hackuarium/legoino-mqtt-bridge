@@ -1,7 +1,75 @@
-/**
- * Returns a very important number
- * @return {number}
- */
-export function myModule() {
-  return 42;
+import Debug from 'debug';
+import mqtt from 'mqtt';
+import { DeviceManager } from 'serial-requests';
+
+const debug = Debug('index');
+
+serialMqttBridge('localhost:1883');
+
+export default function serialMqttBridge(broker) {
+  console.log('heyo');
+  let deviceManager = new DeviceManager({
+    optionCreator: function (portInfo) {
+      if (portInfo.manufacturer === 'SparkFun') {
+        return {
+          baudRate: 9600,
+          getIdCommand: 'uq\n',
+          getIdResponseParser: function (buffer) {
+            return buffer.replace(/[^0-9]/g, '');
+          },
+          checkResponse: function (buffer) {
+            return buffer.endsWith('\n');
+          },
+          connect: function (connected) {
+            debug('Connected', connected);
+          },
+        };
+      }
+    },
+  });
+
+  // the format of the query topics is bioreactor/q/<id>/<cmd>
+  console.log(broker);
+  const client = mqtt.connect(broker);
+
+  client.on('connect', () => {
+    console.log('CONNECTED!');
+    client.subscribe(`bioreactor/q`, (err) => {
+      if (err) {
+        debug(err);
+      }
+    });
+  });
+
+  client.on('message', function (topic) {
+    // message is Buffer
+    let answer = message.toString();
+    console.log(answer);
+    let query = parseSubTopic(topic);
+    const pubTopic = getPubTopic(query);
+
+    let message = deviceManager
+      .addRequest(query.id, `${query.cmd}\n`)
+      .then((response) => {
+        return response;
+      });
+
+    client.publish(pubTopic, message);
+  });
+}
+
+function parseSubTopic(topic) {
+  let array = topic.split('/');
+  if (array.length !== 4) {
+    debug('Error: Invalid topic format.');
+    return;
+  }
+  return {
+    id: array[2],
+    cmd: array[3],
+  };
+}
+
+function getPubTopic(query) {
+  return `bioreactor/a/${query.id}/${query.cmd}`;
 }
