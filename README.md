@@ -8,16 +8,20 @@
 Retrieve data from serial devices when queried and publish it as MQTT messages.
 
 ## Installation
-
+When it will be published:
 `$ npm i serial-mqtt-bridge`
 
-## Usage
+## Usage from CLI
+You can clone the project and want to run it from the command line. The `index.js` script accepts one command line argument: the broker address. The broker address is optional, default is `localhost:1883`.
 
-```js
-import library from 'serial-mqtt-bridge';
+Run normally:
+```bash
+npm start <brokerAddress>
+```
 
-const result = library(args);
-// result is ...
+Run in debug mode:
+```bash
+npm start-dev <brokerAddress>
 ```
 
 ## [API Documentation](https://cheminfo.github.io/serial-mqtt-bridge/)
