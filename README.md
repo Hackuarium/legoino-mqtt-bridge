@@ -5,7 +5,7 @@
 [![Test coverage][codecov-image]][codecov-url]
 [![npm download][download-image]][download-url]
 
-Retrieve data from serial devices and publish it as MQTT messages.
+Retrieve data from serial devices when queried and publish it as MQTT messages.
 
 ## Installation
 
