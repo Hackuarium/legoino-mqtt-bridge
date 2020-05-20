@@ -27,7 +27,7 @@ client.on('connect', () => {
 client.on('message', function (topic, message) {
   debug(`Message received: ${topic}`);
   const answer = message.toString();
-  console.log(answer);
+  debug(answer);
 
   describe('test serialMqttBridge', () => {
     it('should return help message', () => {

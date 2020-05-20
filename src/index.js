@@ -2,19 +2,23 @@ import Debug from 'debug';
 import mqtt from 'mqtt';
 import { DeviceManager } from 'serial-requests';
 
-const debug = Debug('index');
+const debug = Debug('serialMqttBridge');
 
-serialMqttBridge('localhost:1883');
+let server = process.argv[2] || 'localhost:1883';
+
+serialMqttBridge(server);
 
 /**
- * This functions runs a serial to mqtt bridge. It listens to all subtopics of `bioreactor/q`. The topics sent should have the syntax `bioreactor/q/<id>/<cmd>`.
- * @param {string} broker The broker address, e.g.: 127.0.0.1:1883
+ * This functions runs a serial to mqtt bridge. It listens to all subtopics of `bioreactor/q`. The topics asking a command should have the syntax `bioreactor/q/<id>/<cmd>`. The topic to get the list of all existing serial devices is `bioreactor/q/list`
+ * @param {string} [broker=localhost:1883] The broker address, e.g.: 127.0.0.1:1883
  */
-export default async function serialMqttBridge(broker) {
+export default async function serialMqttBridge(broker = 'localhost:1883') {
   broker = `mqtt://${broker}`;
   let deviceManager = new DeviceManager({
     optionCreator: function (portInfo) {
+      console.log({ portInfo });
       if (portInfo.manufacturer === 'SparkFun') {
+        console.log('xxxx');
         return {
           baudRate: 9600,
           getIdCommand: 'uq\n',
@@ -43,17 +47,26 @@ export default async function serialMqttBridge(broker) {
         debug(err);
       }
     });
+    let devices = deviceManager.getDeviceIds();
+    console.log(`Devices detected:${devices}`);
   });
 
   client.on('message', async function (topic) {
     debug(`Message received: ${topic}`);
-    let query = parseSubTopic(topic);
-    const pubTopic = getPubTopic(query);
+    if (topic === 'bioreactor/q/list') {
+      let devices = deviceManager.getDeviceIds();
+      debug(`Detected devices: ${devices}`);
+      let answer = devices.join();
+      client.publish('bioreactor/a/list', answer);
+    } else {
+      let query = parseSubTopic(topic);
+      const pubTopic = getPubTopic(query);
 
-    let answer = await deviceManager.addRequest(query.id, `${query.cmd}\n`);
-    // console.log(answer);
+      let answer = await deviceManager.addRequest(query.id, `${query.cmd}\n`);
+      // console.log(answer);
 
-    client.publish(pubTopic, answer);
+      client.publish(pubTopic, answer);
+    }
   });
 }
 
