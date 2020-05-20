@@ -47,8 +47,6 @@ export default async function serialMqttBridge(broker = 'localhost:1883') {
         debug(err);
       }
     });
-    let devices = deviceManager.getDeviceIds();
-    console.log(`Devices detected:${devices}`);
   });
 
   client.on('message', async function (topic) {
