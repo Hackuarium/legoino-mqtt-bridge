@@ -54,14 +54,14 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://git@github.com/:Hackuarium/serial-mqtt-brigde/blob/dd5d23d360758d36b010f7007238ed7b218c372a/src/index.js#L13-L58'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://git@github.com/:Hackuarium/serial-mqtt-brigde/blob/cbdc8065ed6a5145feb79314265160620b4cc9a7/src/index.js#L15-L71'>
       <span>src/index.js</span>
       </a>
     
   </div>
   
 
-  <p>This functions runs a serial to mqtt bridge. It listens to all subtopics of <code>bioreactor/q</code>. The topics sent should have the syntax <code>bioreactor/q/&#x3C;id>/&#x3C;cmd></code>.</p>
+  <p>This functions runs a serial to mqtt bridge. It listens to all subtopics of <code>bioreactor/q</code>. The topics asking a command should have the syntax <code>bioreactor/q/&#x3C;id>/&#x3C;cmd></code>. The topic to get the list of all existing serial devices is <code>bioreactor/q/list</code></p>
 
     <div class='pre p1 fill-light mt0'>serialMqttBridge(broker: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
   
@@ -80,7 +80,8 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>broker</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
+            <span class='code bold'>broker</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>
+            = <code>localhost:1883</code>)</code>
 	    The broker address, e.g.: 127.0.0.1:1883
 
           </div>
