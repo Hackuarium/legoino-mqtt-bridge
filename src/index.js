@@ -6,8 +6,8 @@ const debug = Debug('index');
 
 serialMqttBridge('localhost:1883');
 
-export default function serialMqttBridge(broker) {
-  console.log('heyo');
+export default async function serialMqttBridge(broker) {
+  broker = `mqtt://${broker}`;
   let deviceManager = new DeviceManager({
     optionCreator: function (portInfo) {
       if (portInfo.manufacturer === 'SparkFun') {
@@ -29,32 +29,27 @@ export default function serialMqttBridge(broker) {
   });
 
   // the format of the query topics is bioreactor/q/<id>/<cmd>
-  console.log(broker);
+  debug(`Broker: ${broker}`);
   const client = mqtt.connect(broker);
 
   client.on('connect', () => {
-    console.log('CONNECTED!');
-    client.subscribe(`bioreactor/q`, (err) => {
+    debug('Client connected!');
+    client.subscribe(`bioreactor/q/#`, (err) => {
       if (err) {
         debug(err);
       }
     });
   });
 
-  client.on('message', function (topic) {
-    // message is Buffer
-    let answer = message.toString();
-    console.log(answer);
+  client.on('message', async function (topic) {
+    debug(`Message received: ${topic}`);
     let query = parseSubTopic(topic);
     const pubTopic = getPubTopic(query);
 
-    let message = deviceManager
-      .addRequest(query.id, `${query.cmd}\n`)
-      .then((response) => {
-        return response;
-      });
+    let answer = await deviceManager.addRequest(query.id, `${query.cmd}\n`);
+    // console.log(answer);
 
-    client.publish(pubTopic, message);
+    client.publish(pubTopic, answer);
   });
 }
 
