@@ -2,6 +2,7 @@
   "name": "serial-mqtt-bridge",
   "version": "0.0.0",
   "description": "Retrieve data from serial devices and publish it as MQTT messages",
+  "private": true,
   "main": "lib/index.js",
   "module": "src/index.js",
   "files": [

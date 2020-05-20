@@ -6,6 +6,10 @@ const debug = Debug('index');
 
 serialMqttBridge('localhost:1883');
 
+/**
+ * This functions runs a serial to mqtt bridge. It listens to all subtopics of `bioreactor/q`. The topics sent should have the syntax `bioreactor/q/<id>/<cmd>`.
+ * @param {string} broker The broker address, e.g.: 127.0.0.1:1883
+ */
 export default async function serialMqttBridge(broker) {
   broker = `mqtt://${broker}`;
   let deviceManager = new DeviceManager({
