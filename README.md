@@ -24,7 +24,7 @@ Run in debug mode:
 npm start-dev <brokerAddress>
 ```
 
-## [API Documentation](https://cheminfo.github.io/serial-mqtt-bridge/)
+## [API Documentation](https://hackuarium.github.io/serial-mqtt-bridge/)
 
 ## License
 

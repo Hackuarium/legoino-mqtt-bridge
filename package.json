@@ -21,15 +21,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cheminfo/serial-mqtt-bridge.git"
+    "url": "git+https://github.com/hackuarium/serial-mqtt-bridge.git"
   },
   "keywords": [],
   "author": "Océane Patiny",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cheminfo/serial-mqtt-bridge/issues"
+    "url": "https://github.com/hackuarium/serial-mqtt-bridge/issues"
   },
-  "homepage": "https://github.com/cheminfo/serial-mqtt-bridge#readme",
+  "homepage": "https://github.com/hackuarium/serial-mqtt-bridge#readme",
   "jest": {
     "testEnvironment": "node"
   },
