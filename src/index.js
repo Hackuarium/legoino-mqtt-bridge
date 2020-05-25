@@ -16,9 +16,9 @@ export default async function serialMqttBridge(broker = 'localhost:1883') {
   broker = `mqtt://${broker}`;
   let deviceManager = new DeviceManager({
     optionCreator: function (portInfo) {
-      console.log({ portInfo });
+      // console.log({ portInfo });
       if (portInfo.manufacturer === 'SparkFun') {
-        console.log('xxxx');
+        // console.log('xxxx');
         return {
           baudRate: 9600,
           getIdCommand: 'uq\n',
