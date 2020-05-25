@@ -9,7 +9,12 @@ let server = process.argv[2] || 'localhost:1883';
 serialMqttBridge(server);
 
 /**
- * This functions runs a serial to mqtt bridge. It listens to all subtopics of `bioreactor/q`. The topics asking a command should have the syntax `bioreactor/q/<id>/<cmd>`. The topic to get the list of all existing serial devices is `bioreactor/q/list`
+ * This function runs a serial to mqtt bridge. It listens to all subtopics of `bioreactor/q`.
+ *
+ * The topics asking a command should have the syntax `bioreactor/q/<id>/<cmd>`.
+ *
+ * The topic to get the list of all existing serial devices is `bioreactor/q/list`
+ *
  * @param {string} [broker=localhost:1883] The broker address, e.g.: 127.0.0.1:1883
  */
 export default async function serialMqttBridge(broker = 'localhost:1883') {
