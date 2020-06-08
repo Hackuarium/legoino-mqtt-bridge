@@ -1,6 +1,6 @@
 import Debug from 'debug';
+import SerialBridge from 'legoino-serial-bridge';
 import mqtt from 'mqtt';
-import { DeviceManager } from 'serial-requests';
 
 const debug = Debug('serialMqttBridge');
 
@@ -11,7 +11,7 @@ serialMqttBridge(server);
 /**
  * This function runs a serial to mqtt bridge. It listens to all subtopics of `bioreactor/q`.
  *
- * The topics asking a command should have the syntax `bioreactor/q/<id>/<cmd>`.
+ * The topics querying a command should have the syntax `bioreactor/q/<id>/<cmd>`.
  *
  * The topic to get the list of all existing serial devices is `bioreactor/q/list`
  *
@@ -19,27 +19,11 @@ serialMqttBridge(server);
  */
 export default async function serialMqttBridge(broker = 'localhost:1883') {
   broker = `mqtt://${broker}`;
-  let deviceManager = new DeviceManager({
-    optionCreator: function (portInfo) {
-      // console.log({ portInfo });
-      if (portInfo.manufacturer === 'SparkFun') {
-        // console.log('xxxx');
-        return {
-          baudRate: 9600,
-          getIdCommand: 'uq\n',
-          getIdResponseParser: function (buffer) {
-            return buffer.replace(/[^0-9]/g, '');
-          },
-          checkResponse: function (buffer) {
-            return buffer.endsWith('\n');
-          },
-          connect: function (connected) {
-            debug('Connected', connected);
-          },
-        };
-      }
-    },
-  });
+
+  let serialBridge = new SerialBridge({ defaultCommandExpirationDelay: 500 });
+
+  // updating devices list every second
+  serialBridge.continuousUpdateDevices();
 
   // the format of the query topics is bioreactor/q/<id>/<cmd>
   debug(`Broker: ${broker}`);
@@ -57,15 +41,24 @@ export default async function serialMqttBridge(broker = 'localhost:1883') {
   client.on('message', async function (topic) {
     debug(`Message received: ${topic}`);
     if (topic === 'bioreactor/q/list') {
-      let devices = deviceManager.getDeviceIds();
-      debug(`Detected devices: ${devices}`);
-      let answer = devices.join();
+      // only returning currently connected devices
+      let devices = serialBridge.getDevicesList({ ready: true });
+      debug(`Detected devices: ${devices.map((device) => device.id).join()}`);
+      let answer = JSON.stringify(devices);
       client.publish('bioreactor/a/list', answer);
     } else {
       let query = parseSubTopic(topic);
       const pubTopic = getPubTopic(query);
 
-      let answer = await deviceManager.addRequest(query.id, `${query.cmd}\n`);
+      let answer = await serialBridge
+        .sendCommand(query.id, `${query.cmd}`)
+        .then((result) => {
+          return result;
+        })
+        .catch((err) => {
+          debug(err);
+        });
+
       // console.log(answer);
 
       client.publish(pubTopic, answer);
