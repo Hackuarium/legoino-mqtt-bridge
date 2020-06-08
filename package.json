@@ -1,6 +1,6 @@
 {
   "name": "legoino-mqtt-bridge",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Retrieve data from serial devices and publish it as MQTT messages",
   "private": false,
   "main": "lib/index.js",
