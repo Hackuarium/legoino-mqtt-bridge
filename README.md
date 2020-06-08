@@ -8,10 +8,12 @@
 Retrieve data from serial devices when queried and publish it as MQTT messages.
 
 ## Installation
+
 When it will be published:
 `$ npm i serial-mqtt-bridge`
 
 ## Usage from CLI
+
 You can clone the project and want to run it from the command line. The `index.js` script accepts one command line argument: the broker address. The broker address is optional, default is `localhost:1883`.
 
 Run normally:
@@ -22,6 +24,31 @@ npm start <brokerAddress>
 Run in debug mode:
 ```bash
 npm start-dev <brokerAddress>
+```
+
+## MQTT topics standard
+
+We define an MQTT topics standard: each topic sent to the bridge is composed of the device type, followed by a "q" (query) or "a" (answer), followed by the device unique id and finally the command asked for. The packages that will be sent from node-red to the bridge won't have any content. Reading MQTT doc confirmed that it is indeed optional for publish messages.
+
+### Send a command to a serial device
+
+The query topics format:
+```bash
+bioreactor/q/<id>/<cmd>
+```
+
+### Query for all connected serial devices
+
+Use the following topic to get a list of all existing serial devices:
+```bash
+bioreactor/q/list
+```
+
+### Answer topics
+
+To listen to all the answers of the bridge, subscribe to this topic:
+```
+bioreactor/a/#
 ```
 
 ## [API Documentation](https://hackuarium.github.io/serial-mqtt-bridge/)
