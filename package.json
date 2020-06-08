@@ -1,5 +1,5 @@
 {
-  "name": "serial-mqtt-bridge",
+  "name": "legoino-mqtt-bridge",
   "version": "0.0.0",
   "description": "Retrieve data from serial devices and publish it as MQTT messages",
   "private": true,
@@ -21,15 +21,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hackuarium/serial-mqtt-bridge.git"
+    "url": "git+https://github.com/hackuarium/legoino-mqtt-bridge.git"
   },
   "keywords": [],
   "author": "Océane Patiny",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hackuarium/serial-mqtt-bridge/issues"
+    "url": "https://github.com/hackuarium/legoino-mqtt-bridge/issues"
   },
-  "homepage": "https://github.com/hackuarium/serial-mqtt-bridge#readme",
+  "homepage": "https://github.com/hackuarium/legoino-mqtt-bridge#readme",
   "jest": {
     "testEnvironment": "node"
   },
