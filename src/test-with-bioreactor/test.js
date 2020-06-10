@@ -8,7 +8,7 @@ const debug = Debug('test');
 // you should be running the bridge in another terminal!
 // serialMqttBridge();
 
-// This test only works if you have a bioreactor plugged in your computer.
+// This test only works if you have a bioreactor plugged in your computer!
 // Change the variables below to match your setup.
 let broker = `mqtt://localhost:1883`;
 let id = 2;
