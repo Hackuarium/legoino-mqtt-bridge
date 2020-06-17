@@ -5,11 +5,10 @@
 [![Test coverage][codecov-image]][codecov-url]
 [![npm download][download-image]][download-url]
 
-Retrieve data from serial devices when queried and publish it as MQTT messages.
+Retrieve data from serial devices when queried, and publish it as MQTT messages.
 
 ## Installation
 
-When it will be published:
 `$ npm i legoino-mqtt-bridge`
 
 ## Usage from CLI
@@ -24,6 +23,14 @@ npm start <brokerAddress>
 Run in debug mode:
 ```bash
 npm run start-dev <brokerAddress>
+```
+
+## Usage from Node
+
+```js
+import serialMqttBridge from 'legoino-mqtt-bridge';
+
+serialMqttBridge('localhost:1883');
 ```
 
 ## MQTT topics standard
