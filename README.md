@@ -14,7 +14,7 @@ When it will be published:
 
 ## Usage from CLI
 
-You can clone the project and want to run it from the command line. The `index.js` script accepts one command line argument: the broker address. The broker address is optional, default is `localhost:1883`.
+You can clone the project and want to run it from the command line. The `index.js` script accepts one command line argument: the broker address. The broker address is optional, default is `mqtt://localhost:1883`.
 
 Run normally:
 ```bash
@@ -23,7 +23,7 @@ npm start <brokerAddress>
 
 Run in debug mode:
 ```bash
-npm start-dev <brokerAddress>
+npm run start-dev <brokerAddress>
 ```
 
 ## MQTT topics standard

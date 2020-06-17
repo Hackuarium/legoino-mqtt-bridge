@@ -13,7 +13,7 @@
     "eslint": "eslint src",
     "eslint-fix": "npm run eslint -- --fix",
     "prepublishOnly": "rollup -c",
-    "start": "nodemon -r esm src/index.js",
+    "start": "nodemon -r esm src/index.js -h mqtt://localhost:1883 -t 'bioreactor/q/#'",
     "start-dev": "DEBUG=serialMqttBridge nodemon -r esm src/index.js",
     "test": "npm run eslint"
   },

@@ -4,7 +4,7 @@ import mqtt from 'mqtt';
 
 const debug = Debug('serialMqttBridge');
 
-let server = process.argv[2] || 'localhost:1883';
+let server = process.argv[2] || 'mqtt://localhost:1883';
 
 serialMqttBridge(server);
 
@@ -17,9 +17,9 @@ serialMqttBridge(server);
  *
  * @param {string} [broker=localhost:1883] The broker address, e.g.: 127.0.0.1:1883
  */
-export default async function serialMqttBridge(broker = 'localhost:1883') {
-  broker = `mqtt://${broker}`;
-
+export default async function serialMqttBridge(
+  broker = 'mqtt://localhost:1883',
+) {
   let serialBridge = new SerialBridge({ defaultCommandExpirationDelay: 500 });
 
   // updating devices list every second
