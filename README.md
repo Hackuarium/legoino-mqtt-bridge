@@ -108,7 +108,3 @@ mosquitto_pub -t 'bioreactor/q/list' -m ''
 [codecov-url]: https://codecov.io/gh/cheminfo/legoino-mqtt-bridge
 [download-image]: https://img.shields.io/npm/dm/legoino-mqtt-bridge.svg
 [download-url]: https://www.npmjs.com/package/legoino-mqtt-bridge
-
-```
-
-```
