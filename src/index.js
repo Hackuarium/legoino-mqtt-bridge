@@ -11,57 +11,61 @@ const brokerOptions = {
   broker: cliArguments.b,
   deviceType: cliArguments.t,
   username: cliArguments.u,
-  password: cliArguments.P,
+  password: cliArguments.p,
 };
-
-debug(brokerOptions);
 
 serialMqttBridge(brokerOptions);
 
 /**
  * This function runs a serial to mqtt bridge.
  *
- * The topics querying a command should have the syntax `bioreactor/q/<id>/<cmd>`.
+ * The topics querying a command should have the syntax `<type>/q/<id>/<cmd>`.
  *
- * The topic to get the list of all existing serial devices is `bioreactor/q/list`
+ * The topic to get the list of all existing serial devices is `<type>/q/list`
  *
  * @param {object} [options={}]
- * @param {string} [options.deviceType='bioreactor'] The kind of device you want to query
+ * @param {string} [options.type='bioreactor'] The kind of device you want to query
  * @param {string} [options.host='mqtt://localhost:1883'] The broker address, e.g.: mqtt://127.0.0.1:1883
  * @param {string} [options.username] The username of the MQTT broker, if it is secured
  * @param {string} [options.password] The password of the MQTT broker, if it is secured
  */
 export default async function serialMqttBridge(options = {}) {
   const {
-    deviceType = 'bioreactor',
-    host = 'mqtt://localhost:1883',
+    deviceType: type = 'bioreactor',
+    broker = 'mqtt://localhost:1883',
     username,
     password,
   } = options;
+
+  // the format of the query topics is <type>/q/<id>/<cmd>
+  debug({
+    deviceType: type,
+    broker,
+    username,
+    password,
+  });
 
   let serialBridge = new SerialBridge({ defaultCommandExpirationDelay: 500 });
 
   // updating devices list every second
   serialBridge.continuousUpdateDevices();
 
-  // the format of the query topics is <type>/q/<id>/<cmd>
-  debug(`Broker: ${host}`);
-
   let client;
 
   if (!username && !password) {
-    client = mqtt.connect(host);
+    client = mqtt.connect(broker);
   } else if (username && password) {
-    client = mqtt.connect(host, { username, password });
+    client = mqtt.connect(broker, { username, password });
   } else {
     throw new Error(
       'Please specify both username AND password in case broker is secured',
     );
   }
+  debug('MQTT client created');
 
   client.on('connect', () => {
     debug('Client connected!');
-    client.subscribe(`${deviceType}/q/#`, (err) => {
+    client.subscribe(`${type}/q/#`, (err) => {
       if (err) {
         debug(err);
       }
@@ -70,12 +74,12 @@ export default async function serialMqttBridge(options = {}) {
 
   client.on('message', async function (topic) {
     debug(`Message received: ${topic}`);
-    if (topic === `${deviceType}/q/list`) {
+    if (topic === `${type}/q/list`) {
       // only returning currently connected devices
       let devices = serialBridge.getDevicesList({ ready: true });
       debug(`Detected devices: ${devices.map((device) => device.id).join()}`);
       let answer = JSON.stringify(devices);
-      client.publish(`${deviceType}/a/list`, answer);
+      client.publish(`${type}/a/list`, answer);
     } else {
       let query = parseSubTopic(topic);
       const pubTopic = getPubTopic(query);
