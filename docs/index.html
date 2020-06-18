@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
   <meta charset='utf-8'>
   <title>legoino-mqtt-bridge 0.0.1 | Documentation</title>
@@ -20,9 +20,6 @@
             placeholder='Filter'
             id='filter-input'
             class='col12 block input'
-            spellcheck='false'
-            autocapitalize='off'
-            autocorrect='off'
             type='text' />
           <div id='toc'>
             <ul class='list-reset h5 py1-ul'>
@@ -57,18 +54,18 @@
     </h3>
     
     
-      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://github.com/Hackuarium/serial-mqtt-brigde/blob/d43b9f682990a17860a883c1729da2d576612a29/src/index.js#L20-L67'>
+      <a class='fr fill-darken0 round round pad1x quiet h5' href='https://git@github.com/:Hackuarium/legoino-mqtt-bridge/blob/952cc5e59c453e29dbdf7bde1f18ced61c06e590/src/index.js#L32-L101'>
       <span>src/index.js</span>
       </a>
     
   </div>
   
 
-  <p>This function runs a serial to mqtt bridge. It listens to all subtopics of <code>bioreactor/q</code>.</p>
-<p>The topics querying a command should have the syntax <code>bioreactor/q/&#x3C;id>/&#x3C;cmd></code>.</p>
-<p>The topic to get the list of all existing serial devices is <code>bioreactor/q/list</code></p>
+  <p>This function runs a serial to mqtt bridge.</p>
+<p>The topics querying a command should have the syntax <code>&#x3C;type>/q/&#x3C;id>/&#x3C;cmd></code>.</p>
+<p>The topic to get the list of all existing serial devices is <code>&#x3C;type>/q/list</code></p>
 
-    <div class='pre p1 fill-light mt0'>serialMqttBridge(broker: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</div>
+    <div class='pre p1 fill-light mt0'>serialMqttBridge(options: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>)</div>
   
   
 
@@ -85,17 +82,70 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>broker</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>
-            = <code>localhost:1883</code>)</code>
-	    The broker address, e.g.: 127.0.0.1:1883
-
+            <span class='code bold'>options</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">object</a>
+            = <code>{}</code>)</code>
+	    
           </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.type</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  
+    (default <code>&#39;bioreactor&#39;</code>)
+  </td>
+  <td class='break-word'><span>The kind of device you want to query
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.host</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a></code>
+  
+    (default <code>&#39;mqtt://localhost:1883&#39;</code>)
+  </td>
+  <td class='break-word'><span>The broker address, e.g.: mqtt://127.0.0.1:1883
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.username</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
+  </td>
+  <td class='break-word'><span>The username of the MQTT broker, if it is secured
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>options.password</span> <code class='quiet'><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>?</code>
+  </td>
+  <td class='break-word'><span>The password of the MQTT broker, if it is secured
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
           
         </div>
       
     </div>
-  
-
   
 
   
