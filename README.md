@@ -37,8 +37,8 @@ npm run start-dev [options]
 
 The `index.js` script accepts four command line options:
 
-- `-t`: device type (default: "bioreactor")
-- `-b`: broker address (default: "mqtt://127.0.0.1:1883)
+- `-t`: device type (default 'bioreactor')
+- `-b`: broker address (default 'mqtt://127.0.0.1:1883')
 - `-u`: username
 - `-p`: password
 
