@@ -47,7 +47,7 @@ The `index.js` script accepts four command line options:
 ```js
 import serialMqttBridge from 'legoino-mqtt-bridge';
 
-serialMqttBridge('localhost:1883');
+serialMqttBridge({broker: 'mqtt://192.168.1.2:1883', type: 'bioreactor', username: 'brokerUsername', password: 'brokerPassword');
 ```
 
 ## MQTT topics standard
